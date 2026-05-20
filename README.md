@@ -7,7 +7,7 @@ Live at: <https://summerbucketlist.me>
 ## What's in it
 
 - **64 activities** across 6 categories: Hikes, City Trips, Nature, Big Days, Chill
-- **Filters** on drive time, effort, budget, duration, and halal food nearby
+- **Filter bar** — single button below the tabs opens a bottom sheet with category selection and all filters (drive time, effort, budget, duration, halal food nearby)
 - **Browse / Saved / Done** tabs with localStorage persistence
 - **Surprise Me** — random pick from the filtered-and-not-yet-done pool, with reroll
 - **Share** — copies a deep link (`?id=...`) that opens straight to the activity sheet
@@ -32,8 +32,8 @@ Live at: <https://summerbucketlist.me>
 src/
 ├── components/
 │   ├── activity/      ActivityCard, ActivitySheet (detail + surprise)
-│   ├── filters/       CategoryChips, FilterRow, HalalToggle
-│   ├── layout/        Header
+│   ├── filters/       CategoryChips, FilterRow, HalalToggle, FilterBar, FilterSheet
+│   ├── layout/        Header (sticky — logo row, tabs, FilterBar)
 │   └── ui/            EmptyState
 ├── hooks/
 │   ├── useFilters.ts      filter state + filtered list
@@ -63,6 +63,20 @@ npm run lint       # eslint (covers .ts/.tsx via typescript-eslint)
 npx prettier --check "src/**/*.{ts,tsx,css}"  # check formatting
 npx prettier --write "src/**/*.{ts,tsx,css}"  # auto-format
 ```
+
+## Accessibility checks
+
+Run against a local server (`npm run build && npm run preview`):
+
+```bash
+# pa11y — WCAG 2 AA, HTML_CS ruleset
+npx pa11y http://localhost:4173/
+
+# axe-core — use --load-delay 1500 to let staggered card animations complete before testing
+npx @axe-core/cli http://localhost:4173/ --load-delay 1500
+```
+
+Both must report **0 violations** before deploying. The `--load-delay` flag is required for axe because cards have a staggered `animationDelay` with `fill-mode: both` — without it axe catches cards at `opacity: 0` mid-delay and reports false contrast failures.
 
 
 ## Deploying

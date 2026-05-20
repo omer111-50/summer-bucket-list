@@ -1,7 +1,7 @@
 import type React from "react";
 import { LuCheck, LuHeart, LuMap, LuShuffle } from "react-icons/lu";
-import { CategoryChips } from "../filters/CategoryChips";
 import type { CatOrAll, View } from "../../types";
+import { FilterBar } from "../filters/FilterBar";
 
 interface HeaderProps {
   filteredCount: number;
@@ -9,10 +9,11 @@ interface HeaderProps {
   setView: (v: View) => void;
   favsCount: number;
   doneCount: number;
-  cat: CatOrAll;
-  setCat: (c: CatOrAll) => void;
   pool: number;
   onSurprise: (e: React.MouseEvent) => void;
+  cat: CatOrAll;
+  fCount: number;
+  onOpenFilters: () => void;
 }
 
 export function Header({
@@ -21,10 +22,11 @@ export function Header({
   setView,
   favsCount,
   doneCount,
-  cat,
-  setCat,
   pool,
   onSurprise,
+  cat,
+  fCount,
+  onOpenFilters,
 }: HeaderProps) {
   return (
     <header className="hdr">
@@ -70,7 +72,9 @@ export function Header({
           <LuCheck size={14} /> Done {doneCount > 0 && <span className="bdg">{doneCount}</span>}
         </button>
       </div>
-      <CategoryChips value={cat} onChange={setCat} />
+      <div className="filter-bar-wrap">
+        <FilterBar cat={cat} fCount={fCount} onOpen={onOpenFilters} />
+      </div>
     </header>
   );
 }

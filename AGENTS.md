@@ -12,21 +12,39 @@ defaulting to the same restaurants every weekend with outdoor and adventure
 activities across Manchester, the Peak District, Lake District, Yorkshire
 Dales, and North Wales.
 
-**Live**: <https://omer111-50.github.io/summer-bucket-list/>
+**Live**: <https://summerbucketlist.me>
 
 ## Status
 
-Deployed and working. Architecture refactored from a single 1800-line `App.jsx`
-into a typed component tree (see [README.md](README.md#project-layout)). All
-behaviour and styling preserved verbatim during the refactor — no UX changes.
+Deployed and working on custom domain `summerbucketlist.me`.
 
-UI icons migrated from emoji to Lucide icons via `react-icons/lu` — navigation
-tabs, filter labels, card metadata (drive/time/effort/cost/halal), action
-buttons (save/done/share), stars, location pin, notes label. Category and effort
-emojis (⛰️ 🏙️ 🌿 🎢 😌, 🌿 🚶 🥾 💪 🔥) are intentionally kept for personality.
+**Filter UI refactored**: the persistent `CategoryChips` row, four `FilterRow`s,
+`HalalToggle`, and "Showing X of Y" meta bar have been replaced by a single
+`FilterBar` button (lives inside the sticky `Header`, below the tabs row). Tapping
+it opens `FilterSheet` — a bottom sheet with a 3×2 category grid and all four
+filter rows + halal toggle, plus a sticky "Show N activities / Clear all" footer.
+`FilterBar` and `FilterSheet` reuse the existing `.ov`/`.sh`/`.sh-hdl`/`.sh-body`
+sheet pattern and `.cat`/`.cat.on` chip classes unchanged.
 
-Toolchain added: Prettier, `typescript-eslint` (ESLint now covers `.ts/.tsx`).
-Git repo initialised.
+Architecture note: `CategoryChips.tsx`, `FilterRow.tsx`, and `HalalToggle.tsx` are
+**not deleted** — they are rendered inside `FilterSheet` and remain the source of
+truth for their respective UI.
+
+## Accessibility checks (hard requirement)
+
+Run these against a local preview build (`npm run build && npm run preview --port 4173`) before every deploy:
+
+```bash
+# pa11y — zero issues required
+npx pa11y http://localhost:4173/
+
+# axe-core — zero violations required
+# --load-delay 1500 is mandatory: cards have staggered animationDelay with fill-mode:both,
+# so axe catches them at opacity:0 mid-delay and reports false contrast failures without it
+npx @axe-core/cli http://localhost:4173/ --load-delay 1500
+```
+
+Both tools must report **0 issues / 0 violations**. If axe reports color-contrast failures only on staggered cards and only without `--load-delay`, they are false positives from the animation — not real failures.
 
 ## Constraints worth knowing before you edit
 
@@ -44,7 +62,7 @@ Git repo initialised.
 1. **More activities** — the markdown guide (`summer-activities-guide-2026.md`, if it still exists) has ~40 more entries not yet in [src/lib/activities.ts](src/lib/activities.ts). Priority additions: Fairfield Horseshoe, Bleaklow, Pen-y-ghent standalone, Lyme Park, Dunham Massey, Tarn Hows, Arnside Knott.
 2. **Combo day tab** — the source guide has ~10 pre-planned combo itineraries (e.g. "Castleton Full Day: Speedwell + Blue John + Mam Tor"). Would be a 6th view tab alongside Browse/Saved/Done.
 3. **PWA** — `manifest.json` is already in [public/](public/) (`site.webmanifest`); needs a service worker so the lads can install to home screen and use offline.
-4. **Custom domain** — currently on `github.io` subpath. Either set up a CNAME or accept the path.
+4. ~~**Custom domain**~~ — done. Live at `summerbucketlist.me` via CNAME.
 
 ## Owner context
 

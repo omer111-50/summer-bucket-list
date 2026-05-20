@@ -1,17 +1,13 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { LuCar, LuClock, LuFootprints, LuWallet } from "react-icons/lu";
 import { ActivityCard } from "./components/activity/ActivityCard";
 import { ActivitySheet } from "./components/activity/ActivitySheet";
-import { FilterRow } from "./components/filters/FilterRow";
-import { HalalToggle } from "./components/filters/HalalToggle";
+import { FilterSheet } from "./components/filters/FilterSheet";
 import { Header } from "./components/layout/Header";
 import { EmptyState } from "./components/ui/EmptyState";
 import { useDeepLink } from "./hooks/useDeepLink";
 import { useFilters } from "./hooks/useFilters";
 import { usePersistence } from "./hooks/usePersistence";
-import { ACTIVITIES } from "./lib/activities";
-import { BUDGET_O, DRIVE_O, DUR_O, EFFORT_O } from "./lib/constants";
 import { doShare } from "./lib/utils";
 import type { Activity } from "./types";
 
@@ -23,6 +19,7 @@ export default function App() {
   const [sel, setSel] = useState<Activity | null>(initialActivity);
   const [surp, setSurp] = useState<Activity | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
 
   useEffect(() => {
     document.title = "The Summer Bucket List";
@@ -52,66 +49,12 @@ export default function App() {
         setView={f.setView}
         favsCount={favs.length}
         doneCount={done.length}
-        cat={f.cat}
-        setCat={f.setCat}
         pool={poolCount}
         onSurprise={handleSurprise}
+        cat={f.cat}
+        fCount={f.fCount}
+        onOpenFilters={() => setIsFilterSheetOpen(true)}
       />
-
-      <section className="filters" aria-label="Filter options">
-        <FilterRow
-          label={
-            <>
-              <LuCar size={12} /> Drive
-            </>
-          }
-          options={DRIVE_O}
-          value={f.drive}
-          onChange={f.setDrive}
-        />
-        <FilterRow
-          label={
-            <>
-              <LuFootprints size={12} /> Effort
-            </>
-          }
-          options={EFFORT_O}
-          value={f.effort}
-          onChange={f.setEffort}
-        />
-        <FilterRow
-          label={
-            <>
-              <LuWallet size={12} /> Budget
-            </>
-          }
-          options={BUDGET_O}
-          value={f.budget}
-          onChange={f.setBudget}
-        />
-        <FilterRow
-          label={
-            <>
-              <LuClock size={12} /> Time
-            </>
-          }
-          options={DUR_O}
-          value={f.dur}
-          onChange={f.setDur}
-        />
-        <HalalToggle value={f.halal} onChange={f.setHalal} />
-      </section>
-
-      {f.fCount > 0 && (
-        <div className="fmeta">
-          <span className="fmeta-txt">
-            Showing {f.filtered.length} of {ACTIVITIES.length}
-          </span>
-          <button className="clr" onClick={f.clearAll}>
-            Clear {f.fCount} filter{f.fCount !== 1 ? "s" : ""}
-          </button>
-        </div>
-      )}
 
       <main className="cards">
         {f.filtered.length === 0 ? (
@@ -160,6 +103,25 @@ export default function App() {
           onToggleDone={toggleDone}
           onReroll={handleSurprise}
           onShare={handleShare}
+        />
+      )}
+      {isFilterSheetOpen && (
+        <FilterSheet
+          cat={f.cat}
+          setCat={f.setCat}
+          drive={f.drive}
+          setDrive={f.setDrive}
+          effort={f.effort}
+          setEffort={f.setEffort}
+          budget={f.budget}
+          setBudget={f.setBudget}
+          dur={f.dur}
+          setDur={f.setDur}
+          halal={f.halal}
+          setHalal={f.setHalal}
+          filteredCount={f.filtered.length}
+          clearAll={f.clearAll}
+          onClose={() => setIsFilterSheetOpen(false)}
         />
       )}
     </>

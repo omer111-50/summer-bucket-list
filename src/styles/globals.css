@@ -772,3 +772,93 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+.filter-bar-wrap {
+  display: flex;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 10px;
+}
+.filter-bar-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--card);
+  border: none;
+  border-radius: 8px;
+  color: var(--tx);
+  font-family: var(--f-body);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.filter-bar-btn:hover {
+  background: var(--card-h);
+}
+.filter-bar-btn.is-active {
+  color: var(--amb);
+}
+.filter-bar-btn:focus-visible {
+  outline: 2px solid var(--amb);
+  outline-offset: -2px;
+}
+.filter-bar-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* FilterSheet layout */
+.filter-sheet-section {
+  margin-bottom: 20px;
+}
+.filter-sheet-divider {
+  height: 1px;
+  background: var(--brd);
+  margin: 0 0 20px;
+}
+.filter-sheet-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+.filter-sheet-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--surf);
+  border-top: 1px solid var(--brd);
+}
+.filter-show-btn {
+  flex: 1;
+  background: var(--amb);
+  color: #0d0900;
+  font-family: var(--f-title);
+  font-size: 17px;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: var(--rs);
+  padding: 12px;
+  cursor: pointer;
+}
+.filter-clear-btn {
+  background: none;
+  border: none;
+  font-family: var(--f-body);
+  font-size: 13px;
+  color: var(--txm);
+  cursor: pointer;
+  text-decoration: underline;
+}
