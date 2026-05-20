@@ -20,11 +20,21 @@ Deployed and working. Architecture refactored from a single 1800-line `App.jsx`
 into a typed component tree (see [README.md](README.md#project-layout)). All
 behaviour and styling preserved verbatim during the refactor — no UX changes.
 
+UI icons migrated from emoji to Lucide icons via `react-icons/lu` — navigation
+tabs, filter labels, card metadata (drive/time/effort/cost/halal), action
+buttons (save/done/share), stars, location pin, notes label. Category and effort
+emojis (⛰️ 🏙️ 🌿 🎢 😌, 🌿 🚶 🥾 💪 🔥) are intentionally kept for personality.
+
+Toolchain added: Prettier, `typescript-eslint` (ESLint now covers `.ts/.tsx`).
+Git repo initialised.
+
 ## Constraints worth knowing before you edit
 
 - **TypeScript strict mode** — `npm run typecheck` must pass. Any new code goes in `.ts`/`.tsx`.
 - **Single stylesheet** — all CSS lives in [src/styles/globals.css](src/styles/globals.css). Don't introduce CSS Modules, styled-components, or per-component stylesheets.
-- **No new runtime deps without a reason** — current deps are just `react`, `react-dom`, `react-icons`. Vite/esbuild handles everything else.
+- **No new runtime deps without a reason** — current deps are `react`, `react-dom`, `react-icons`. Vite/esbuild handles everything else.
+- **Icons use `react-icons/lu`** (Lucide) — import from that namespace, not `lucide-react`. Keep category/effort emojis as-is.
+- **Prettier config** — [.prettierrc](.prettierrc) is the source of truth for formatting. Run `npx prettier --write "src/**/*.{ts,tsx,css}"` before committing.
 - **localStorage keys are `sbl-favs` and `sbl-done`** — renaming them silently breaks every user who already has data. If you ever change them, write a migration.
 - **`id` field on every activity is permanent** — it's in share URLs (`?id=mam-tor`) and persistence. Don't rename existing ids.
 - **Design tokens are fixed** — see the "Design decisions" section in [README.md](README.md). The dark-forest palette and amber accent are deliberate; change with reason.

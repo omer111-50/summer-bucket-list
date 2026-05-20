@@ -17,9 +17,14 @@ Live at: <https://omer111-50.github.io/summer-bucket-list/>
 
 - **React 19** + **TypeScript** (strict mode)
 - **Vite 8** for dev/build
-- **react-icons** for the shuffle icon — no other UI libraries
+- **react-icons** (Lucide set via `react-icons/lu`) for all UI icons — navigation tabs, filter labels, card metadata, action buttons. Category and effort emojis are kept as-is for personality.
 - Hand-written CSS in [src/styles/globals.css](src/styles/globals.css) — no Tailwind, no CSS-in-JS
 - **gh-pages** for deployment
+
+### Toolchain
+
+- **Prettier** — [.prettierrc](.prettierrc): 2-space indent, double quotes, semicolons, 100-char print width
+- **ESLint** — [eslint.config.js](eslint.config.js): covers `.ts/.tsx` via `typescript-eslint` + `eslint-config-prettier`
 
 ## Project layout
 
@@ -54,8 +59,11 @@ npm run dev        # dev server (default http://localhost:5173/summer-bucket-lis
 npm run build      # production build → dist/
 npm run preview    # serve the production build
 npm run typecheck  # tsc --noEmit
-npm run lint       # eslint
+npm run lint       # eslint (covers .ts/.tsx via typescript-eslint)
+npx prettier --check "src/**/*.{ts,tsx,css}"  # check formatting
+npx prettier --write "src/**/*.{ts,tsx,css}"  # auto-format
 ```
+
 
 ## Deploying
 

@@ -11,26 +11,12 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "prepare": "husky"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-icons": "^5.6.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.{js,jsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.{css,json,md}": [
-      "prettier --write"
-    ]
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -44,8 +30,6 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "gh-pages": "^6.3.0",
     "globals": "^17.6.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
     "pa11y": "^9.1.1",
     "pa11y-reporter-html": "^2.0.0",
     "prettier": "^3.8.3",
