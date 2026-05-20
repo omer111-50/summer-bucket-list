@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://omer111-50.github.io/summer-bucket-list",
+  "homepage": "https://summerbucketlist.me",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

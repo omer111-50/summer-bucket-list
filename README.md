@@ -2,7 +2,7 @@
 
 A mobile-first React app for the lads — 64 curated activities across Manchester, the Peak District, Lake District, Yorkshire Dales, and North Wales. Built to replace defaulting to the same restaurants every weekend with actual outdoors stuff worth doing.
 
-Live at: <https://omer111-50.github.io/summer-bucket-list/>
+Live at: <https://summerbucketlist.me>
 
 ## What's in it
 
@@ -55,7 +55,7 @@ src/
 
 ```bash
 npm install
-npm run dev        # dev server (default http://localhost:5173/summer-bucket-list/)
+npm run dev        # dev server (default http://localhost:5173/)
 npm run build      # production build → dist/
 npm run preview    # serve the production build
 npm run typecheck  # tsc --noEmit
@@ -73,7 +73,7 @@ GitHub Pages via the `gh-pages` branch:
 npm run deploy
 ```
 
-This runs `npm run build` then pushes `dist/` to `gh-pages`. The base path is set to `/summer-bucket-list/` in [vite.config.js](vite.config.js) — keep that in mind if you fork.
+This runs `npm run build` then pushes `dist/` to `gh-pages`. The site is served from the root (`base: "/"` in [vite.config.js](vite.config.js)) via the custom domain `summerbucketlist.me`. If you fork to a GitHub Pages subdirectory, set `base` back to `"/<repo-name>/"` and update the `homepage` field in [package.json](package.json).
 
 ## Adding an activity
 
