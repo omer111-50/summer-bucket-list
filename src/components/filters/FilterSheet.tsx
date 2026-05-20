@@ -1,3 +1,5 @@
+import type React from "react";
+import { useRef } from "react";
 import { LuCar, LuClock, LuFootprints, LuWallet } from "react-icons/lu";
 import { BUDGET_O, CATS, DRIVE_O, DUR_O, EFFORT_O } from "../../lib/constants";
 import type { BudgetId, CatOrAll, DriveId, DurId, EffortOrAny } from "../../types";
@@ -39,9 +41,33 @@ export function FilterSheet({
   clearAll,
   onClose,
 }: FilterSheetProps) {
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const swipeEligible = useRef(false);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartY.current = e.touches[0].clientY;
+    const rect = sheetRef.current?.getBoundingClientRect();
+    if (rect) {
+      swipeEligible.current =
+        e.touches[0].clientY >= rect.top && e.touches[0].clientY <= rect.top + rect.height * 0.2;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.changedTouches[0].clientY - touchStartY.current > 60 && swipeEligible.current) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="ov" onClick={onClose}>
-      <div className="sh" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="ov"
+      onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="sh" ref={sheetRef} onClick={(e) => e.stopPropagation()}>
         <div className="sh-hdl" />
         <div className="sh-body">
           <div className="filter-sheet-section">

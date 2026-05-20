@@ -51,11 +51,20 @@ Both tools must report **0 issues / 0 violations**. If axe reports color-contras
 - **TypeScript strict mode** — `npm run typecheck` must pass. Any new code goes in `.ts`/`.tsx`.
 - **Single stylesheet** — all CSS lives in [src/styles/globals.css](src/styles/globals.css). Don't introduce CSS Modules, styled-components, or per-component stylesheets.
 - **No new runtime deps without a reason** — current deps are `react`, `react-dom`, `react-icons`. Vite/esbuild handles everything else.
-- **Icons use `react-icons/lu`** (Lucide) — import from that namespace, not `lucide-react`. Keep category/effort emojis as-is.
+- **Icons use `react-icons/lu`** (Lucide) — import from that namespace, not `lucide-react`. Keep category/effort emojis (on category badges and effort chips) as-is.
 - **Prettier config** — [.prettierrc](.prettierrc) is the source of truth for formatting. Run `npx prettier --write "src/**/*.{ts,tsx,css}"` before committing.
 - **localStorage keys are `sbl-favs` and `sbl-done`** — renaming them silently breaks every user who already has data. If you ever change them, write a migration.
 - **`id` field on every activity is permanent** — it's in share URLs (`?id=mam-tor`) and persistence. Don't rename existing ids.
 - **Design tokens are fixed** — see the "Design decisions" section in [README.md](README.md). The dark-forest palette and amber accent are deliberate; change with reason.
+
+## Sheet pattern — mobile UX constraints
+
+All three sheets (`ActivitySheet`, `FilterSheet`, and the surprise variant of `ActivitySheet`) use the `.ov`/`.sh` overlay+panel pattern. Several mobile behaviours are coupled to this pattern — don't change them without understanding the knock-ons:
+
+- **Scroll lock**: `App.tsx` has a `useEffect` watching `!!sel || !!surp || isFilterSheetOpen`. When any sheet is open it sets `document.body.style.overflow = 'hidden'`; removes it on close or unmount. This prevents the card list from scrolling behind the overlay on iOS.
+- **Swipe-to-close**: The `.ov` overlay carries `onTouchStart`/`onTouchEnd` handlers in both sheet components. A downward swipe of >60 px that originates in the upper 20% of the `.sh` panel calls `onClose()`. This is the only pull-to-refresh mitigation — do not add a library for it.
+- **`touch-action: pan-x` on `.ov`**: Appended in `globals.css` (after the original `.ov` rule). Tells the browser to handle only horizontal panning on the overlay, blocking the native pull-to-refresh gesture. Do **not** change this to `none` — that would break horizontal chip scrolling inside `FilterSheet`.
+- **`overscroll-behavior: contain` on `.sh`**: Also appended in `globals.css`. Prevents the sheet's internal scroll from propagating to the page scroll chain on Android Chrome.
 
 ## Remaining post-deploy tasks (priority order)
 

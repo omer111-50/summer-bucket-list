@@ -862,3 +862,20 @@ body {
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* Swipe-to-close: block pull-to-refresh on overlay, contain sheet scroll */
+.ov {
+  touch-action: pan-x;
+}
+.sh {
+  overscroll-behavior: contain;
+}
+
+/* Sheet engagement rating explanation */
+.sheet-rating-note {
+  font-size: 11px;
+  color: var(--txm);
+  margin-top: -8px;
+  margin-bottom: 14px;
+  font-style: italic;
+}

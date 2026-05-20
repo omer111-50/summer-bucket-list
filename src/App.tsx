@@ -25,6 +25,13 @@ export default function App() {
     document.title = "The Summer Bucket List";
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = !!sel || !!surp || isFilterSheetOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sel, surp, isFilterSheetOpen]);
+
   const handleShare = async (a: Activity, e?: React.SyntheticEvent) => {
     if (await doShare(a, e)) {
       setCopied(a.id);

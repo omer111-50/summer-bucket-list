@@ -11,6 +11,7 @@ Live at: <https://summerbucketlist.me>
 - **Browse / Saved / Done** tabs with localStorage persistence
 - **Surprise Me** — random pick from the filtered-and-not-yet-done pool, with reroll
 - **Share** — copies a deep link (`?id=...`) that opens straight to the activity sheet
+- **Mobile sheet UX** — body scroll locked while any sheet is open; swipe down from the top 20% of the sheet to dismiss; `touch-action: pan-x` on the overlay blocks pull-to-refresh without breaking horizontal chip scrolls inside the sheet
 - **Dark forest theme** with amber accents, Bebas Neue + Outfit typography
 
 ## Stack

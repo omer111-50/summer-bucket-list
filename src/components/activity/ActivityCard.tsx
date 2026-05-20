@@ -6,7 +6,7 @@ import {
   LuFootprints,
   LuHeart,
   LuMapPin,
-  LuShare,
+  LuShare2,
   LuSquare,
   LuStar,
   LuUtensils,
@@ -106,7 +106,7 @@ export function ActivityCard({
           {isDone ? <LuCheck size={13} /> : <LuSquare size={13} />} {isDone ? "Done!" : "Done"}
         </button>
         <button className={`abtn${copied === a.id ? " cp" : ""}`} onClick={(e) => onShare(a, e)}>
-          {copied === a.id ? <LuCheck size={13} /> : <LuShare size={13} />}{" "}
+          {copied === a.id ? <LuCheck size={13} /> : <LuShare2 size={13} />}{" "}
           {copied === a.id ? "Copied" : "Share"}
         </button>
       </div>

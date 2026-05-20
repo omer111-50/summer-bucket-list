@@ -1,4 +1,5 @@
 import type React from "react";
+import { useRef } from "react";
 import {
   LuCar,
   LuCheck,
@@ -7,7 +8,7 @@ import {
   LuHeart,
   LuMapPin,
   LuPin,
-  LuShare,
+  LuShare2,
   LuSquare,
   LuStar,
   LuUtensils,
@@ -45,9 +46,33 @@ export function ActivitySheet({
   const cc = CAT_CLR[a.category] ?? "#e9a020";
   const dStr = durStr(a);
   const cMeta = CATS.find((c) => c.id === a.category);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const swipeEligible = useRef(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    const rect = sheetRef.current?.getBoundingClientRect();
+    if (rect) {
+      swipeEligible.current =
+        e.touches[0].clientY >= rect.top && e.touches[0].clientY <= rect.top + rect.height * 0.2;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (e.changedTouches[0].clientY - touchStartY.current > 60 && swipeEligible.current) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="ov" onClick={onClose}>
-      <div className="sh" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="ov"
+      onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="sh" ref={sheetRef} onClick={(e) => e.stopPropagation()}>
         <div className="sh-hdl" />
         {isSurprise && (
           <div className="surp-hdr">
@@ -88,6 +113,11 @@ export function ActivitySheet({
               </div>
             )}
           </div>
+          <p className="sheet-rating-note">
+            <LuStar size={11} style={{ fill: "currentColor", verticalAlign: "middle" }} />{" "}
+            Engagement rating — how memorable and group-friendly the experience is, regardless of
+            effort or cost
+          </p>
           <div className="sh-desc">{a.desc}</div>
           {a.notes && (
             <div className="sh-notes">
@@ -117,7 +147,7 @@ export function ActivitySheet({
               className={`sbtn${copied === a.id ? " cp" : ""}`}
               onClick={(e) => onShare(a, e)}
             >
-              {copied === a.id ? <LuCheck size={14} /> : <LuShare size={14} />}{" "}
+              {copied === a.id ? <LuCheck size={14} /> : <LuShare2 size={14} />}{" "}
               {copied === a.id ? "Copied" : "Share"}
             </button>
           </div>
